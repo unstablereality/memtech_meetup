@@ -14,6 +14,12 @@
     "require": { 
         "blobaugh/meetup-api-client": "dev-master",
         "jublonet/codebird-php": "dev-master",
-        "vlucas/phpdotenv": "^2.2"
+        "vlucas/phpdotenv": "^2.2",
+        "symfony/console": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Memtech\\": "src/"
+        }
     }
 }
