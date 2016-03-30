@@ -1,0 +1,19 @@
+{
+    "name": "unstablereality/meetup_tweeter",
+    "minimum-stability": "dev",
+    "require-dev": {
+        "blobaugh/meetup-api-client": "dev-master",
+        "jublonet/codebird-php": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Daniel Soskel",
+            "email": "unstablereality@gmail.com"
+        }
+    ],
+    "require": { 
+        "blobaugh/meetup-api-client": "dev-master",
+        "jublonet/codebird-php": "dev-master",
+        "vlucas/phpdotenv": "^2.2"
+    }
+}
