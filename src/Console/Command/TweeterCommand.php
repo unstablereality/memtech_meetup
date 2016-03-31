@@ -95,8 +95,9 @@ class TweeterCommand extends Command
     // build the tweet
     $event = $results[0];
     $eventDate = date('m-d-Y', $event['time']/1000);
-    $tweetMsg="Come join us at 11:30 for #memtech lunch at " . $event['venue']['name'] . ", " . $event['venue']['address_1'] . ". " . $event['event_url'] . PHP_EOL;
-
+    $tweets = array("Come join us at 11:30 for #memtech lunch at " . $event['venue']['name'] . ", " . $event['venue']['address_1'] . ". " . $event['event_url'] . PHP_EOL,
+      "I'll be enjoying " . $event['venue']['name'] . " at 11:30 today. Come find me at " . $event['venue']['address_1'] . ". #memtech #techlunch" . $event['event_url'] . PHP_EOL);
+    $tweetMsg = $tweets[array_rand( $tweets )];
     return $tweetMsg;
   }
 }
