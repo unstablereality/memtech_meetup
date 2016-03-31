@@ -152,7 +152,10 @@ class TweeterCommand extends Command
     {
         $tweets = [
             'Come join us at 11:30 for #memtech lunch at ' . $event['venue_name'] . ' ' . $event['event_url'] . PHP_EOL,
-            'I\'ll be enjoying '. $event['venue_name'] .' at 11:30 today. Join us! #memtech ' . $event['event_url'] . PHP_EOL,
+            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us! #memtech ' . $event['event_url'] . PHP_EOL,
+            $event['venue_name'] . ' is the place to be at 11:30 today for #memtech lunch!' . $event['event_url'] . PHP_EOL,
+            'Need plans for lunch? Head out to ' . $event['venue_name'] . ' for #memetech lunch at 11:30.' . $event['event_url'] . PHP_EOL,
+            'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '.' . $event['event_url'] . PHP_EOL,
         ];
 
         shuffle($tweets);
