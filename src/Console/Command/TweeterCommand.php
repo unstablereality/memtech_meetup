@@ -58,9 +58,9 @@ class TweeterCommand extends Command
     }
 
     /**
-     * Send out the message via twitter
-     * @param $tweetMsg
-     */
+    * Send out the message via twitter
+    * @param $tweetMsg
+    */
     protected function tweetEvent($tweetMsg)
     {
         $cb = $this->twitterConnect();
@@ -84,11 +84,11 @@ class TweeterCommand extends Command
         return $m;
     }
 
-  /** 
-   *  Set up the Twitter API connection strings and create the connection.
-   *
-   *  @return mixed
-   */
+    /**
+    *  Set up the Twitter API connection strings and create the connection.
+    *
+    *  @return mixed
+    */
     protected function twitterConnect()
     {
         $twitter_key = getenv('TWITTER_KEY');
