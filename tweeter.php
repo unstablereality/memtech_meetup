@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+date_default_timezone_set('America/Chicago');
 
 require __DIR__.'/vendor/autoload.php';
 
