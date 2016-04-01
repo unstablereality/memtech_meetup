@@ -15,7 +15,8 @@
         "blobaugh/meetup-api-client": "dev-master",
         "jublonet/codebird-php": "dev-master",
         "vlucas/phpdotenv": "^2.2",
-        "symfony/console": "^3.0"
+        "symfony/console": "^3.0",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
         "psr-4": {
