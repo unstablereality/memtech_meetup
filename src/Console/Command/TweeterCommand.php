@@ -185,8 +185,6 @@ class TweeterCommand extends Command
      */
     protected function shortenUrl($url)
     {
-        $google_key = getenv('GOOGLE_SHORTEN_KEY');
-
         $link = new Link;
         $link->setLongUrl('http://mremi/url-shortener');
 
@@ -195,7 +193,7 @@ class TweeterCommand extends Command
             'timeout' => 1,
         ];
 
-        $googleProvider = new GoogleProvider($google_key, $options);
+        $googleProvider = new GoogleProvider(getenv('GOOGLE_SHORTEN_KEY'), $options);
         $googleProvider->shorten($link);
         $shortUrl = $link->getShortUrl();
 
