@@ -5,6 +5,8 @@ namespace Memtech\Console\Command;
 use MeetupEvents;
 use Codebird\Codebird;
 use MeetupKeyAuthConnection;
+use Mremi\UrlShortener\Model\Link;
+use Mremi\UrlShortener\Provider\Google\GoogleProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -153,16 +155,37 @@ class TweeterCommand extends Command
      */
     protected function generateTweet($event)
     {
+        $url = $this->shortenUrl($event['event_url']);
         $tweets = [
-            'Come join us at 11:30 for #memtech lunch at ' . $event['venue_name'] . '. ' . $event['event_url'] . PHP_EOL,
-            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us for lunch! #memtech ' . $event['event_url'] . PHP_EOL,
-            $event['venue_name'] . ' is the place to be at 11:30 today for #memtech lunch! ' . $event['event_url'] . PHP_EOL,
-            'Need plans for lunch? Head out to ' . $event['venue_name'] . ' for #memetech lunch at 11:30. ' . $event['event_url'] . PHP_EOL,
-            'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '. ' . $event['event_url'] . PHP_EOL,
+            'Come join us at 11:30 for #memtech lunch at ' . $event['venue_name'] . '. ' . $url . PHP_EOL,
+            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us for lunch! #memtech ' . $url . PHP_EOL,
+            $event['venue_name'] . ' is the place to be at 11:30 today for #memtech lunch! ' . $url . PHP_EOL,
+            'Need plans for lunch? Head out to ' . $event['venue_name'] . ' for #memetech lunch at 11:30. ' . $url . PHP_EOL,
+            'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '. ' . $url . PHP_EOL,
         ];
 
         shuffle($tweets);
 
         return $tweets[0];
+    }
+
+    /**
+     * Shorten a URL using google's URL shortener
+     * @param $url
+     * @return string
+     */
+    protected function shortenUrl($url)
+    {
+        $google_key = getenv('GOOGLE_SHORTEN_KEY');
+        $link = new Link;
+        $link->setLongUrl('http://mremi/url-shortener');
+        $googleProvider = new GoogleProvider(
+            $google_key,
+            array('connect_timeout' => 1, 'timeout' => 1)
+        );
+
+        $googleProvider->shorten($link);
+        $shortUrl = $link->getShortUrl();
+        return $shortUrl;
     }
 }
