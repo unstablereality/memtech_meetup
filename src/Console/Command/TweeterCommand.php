@@ -160,9 +160,22 @@ class TweeterCommand extends Command
             'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '. ' . $url . PHP_EOL,
         ];
 
-        shuffle($tweets);
+        foreach ($tweets as $key => $tweet)
+        {
+            if (strlen($tweet) > 140)
+            {
+                unset($tweets[$key]);
+            }
+        }
 
-        return $tweets[0];
+        if (count($tweets) > 0)
+        {
+            shuffle($tweets);
+
+            return $tweets[0];
+        }
+
+        exit('All tweets were too long to tweet');
     }
 
     /**
@@ -173,15 +186,19 @@ class TweeterCommand extends Command
     protected function shortenUrl($url)
     {
         $google_key = getenv('GOOGLE_SHORTEN_KEY');
+
         $link = new Link;
         $link->setLongUrl('http://mremi/url-shortener');
-        $googleProvider = new GoogleProvider(
-            $google_key,
-            array('connect_timeout' => 1, 'timeout' => 1)
-        );
 
+        $options =  [
+            'connect_timeout' => 1,
+            'timeout' => 1,
+        ];
+
+        $googleProvider = new GoogleProvider($google_key, $options);
         $googleProvider->shorten($link);
         $shortUrl = $link->getShortUrl();
+
         return $shortUrl;
     }
 }
