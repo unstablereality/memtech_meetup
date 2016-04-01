@@ -97,9 +97,10 @@ class TweeterCommand extends Command
         $twitter_secret = getenv('TWITTER_SECRET');
         $twitter_token = getenv('TWITTER_TOKEN');
         $twitter_token_secret = getenv('TWITTER_TOKEN_SECRET');
+
         Codebird::setConsumerKey($twitter_key, $twitter_secret);
         $cb = Codebird::getInstance();
-        $cb->setToken('TWITTER_TOKEN','TWITTER_TOKEN_SECRET');
+        $cb->setToken($twitter_token, $twitter_token_secret);
         
         return $cb;
     }
