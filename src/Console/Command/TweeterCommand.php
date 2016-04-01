@@ -93,8 +93,11 @@ class TweeterCommand extends Command
     {
         $twitter_key = getenv('TWITTER_KEY');
         $twitter_secret = getenv('TWITTER_SECRET');
+        $twitter_token = getenv('TWITTER_TOKEN');
+        $twitter_token_secret = getenv('TWITTER_TOKEN_SECRET');
         Codebird::setConsumerKey($twitter_key, $twitter_secret);
         $cb = Codebird::getInstance();
+        $cb->setToken('TWITTER_TOKEN','TWITTER_TOKEN_SECRET');
         
         return $cb;
     }
@@ -152,7 +155,7 @@ class TweeterCommand extends Command
     {
         $tweets = [
             'Come join us at 11:30 for #memtech lunch at ' . $event['venue_name'] . '. ' . $event['event_url'] . PHP_EOL,
-            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us! #memtech ' . $event['event_url'] . PHP_EOL,
+            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us for lunch! #memtech ' . $event['event_url'] . PHP_EOL,
             $event['venue_name'] . ' is the place to be at 11:30 today for #memtech lunch! ' . $event['event_url'] . PHP_EOL,
             'Need plans for lunch? Head out to ' . $event['venue_name'] . ' for #memetech lunch at 11:30. ' . $event['event_url'] . PHP_EOL,
             'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '. ' . $event['event_url'] . PHP_EOL,
