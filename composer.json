@@ -2,7 +2,6 @@
     "name": "unstablereality/meetup_tweeter",
     "minimum-stability": "dev",
     "require-dev": {
-        "blobaugh/meetup-api-client": "dev-master",
         "jublonet/codebird-php": "dev-master"
     },
     "authors": [
@@ -12,12 +11,12 @@
         }
     ],
     "require": { 
-        "blobaugh/meetup-api-client": "dev-master",
         "jublonet/codebird-php": "dev-master",
         "vlucas/phpdotenv": "^2.2",
         "symfony/console": "^3.0",
         "guzzlehttp/guzzle": "^6.2",
-        "mremi/url-shortener": "^1.0"
+        "mremi/url-shortener": "^1.0",
+        "dms/meetup-api-client": "^2.0"
     },
     "autoload": {
         "psr-4": {
