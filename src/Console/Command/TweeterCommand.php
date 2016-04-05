@@ -2,10 +2,9 @@
 
 namespace Memtech\Console\Command;
 
-use MeetupEvents;
 use Codebird\Codebird;
-use MeetupKeyAuthConnection;
 use Mremi\UrlShortener\Model\Link;
+use DMS\Service\Meetup\MeetupKeyAuthClient;
 use Mremi\UrlShortener\Provider\Google\GoogleProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -80,10 +79,9 @@ class TweeterCommand extends Command
     protected function meetupConnect()
     {
         $meetup_api_key = getenv('MEETUP_KEY');
-        $connection = new MeetupKeyAuthConnection($meetup_api_key);
-        $m = new MeetupEvents($connection);
+        $connection = MeetupKeyAuthClient::factory(array('key' => $meetup_api_key));
 
-        return $m;
+        return $connection;
     }
 
     /**
