@@ -186,7 +186,7 @@ class TweeterCommand extends Command
     protected function shortenUrl($url)
     {
         $link = new Link;
-        $link->setLongUrl('http://mremi/url-shortener');
+        $link->setLongUrl($url);
 
         $options =  [
             'connect_timeout' => 1,
