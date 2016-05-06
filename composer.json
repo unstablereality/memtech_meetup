@@ -16,7 +16,8 @@
         "symfony/console": "^3.0",
         "guzzlehttp/guzzle": "^6.2",
         "mremi/url-shortener": "^1.0",
-        "dms/meetup-api-client": "^2.0"
+        "dms/meetup-api-client": "^2.0",
+        "nesbot/carbon": "^1.21"
     },
     "autoload": {
         "psr-4": {
