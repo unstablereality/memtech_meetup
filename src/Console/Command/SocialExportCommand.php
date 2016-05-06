@@ -34,14 +34,28 @@ class SocialExportCommand extends Command
         {
             unlink('export.csv');
         }
-        
+
         $fp = fopen('export.csv', 'w');
 
         foreach($all_events as $event)
         {
             $event_date = Carbon::createFromTimestamp($event['time'] / 1000);
+            $hours_before = 6;
+            $name = strtolower($event['name']);
+
+            if ((strpos($name, 'lunch') !== false) ||
+                (strpos($name, 'burger') !== false))
+            {
+                $hours_before = 2;
+            }
+
+            if (strpos($name, 'breakfast') !== false)
+            {
+                $hours_before = 13;
+            }
+
             $fields = [
-                $event_date->subHours(6)->format('m/d/Y H:i:s'),
+                $event_date->subHours($hours_before)->format('m/d/Y H:i:s'),
                 $event['name'],
                 $event['event_url'],
             ];
