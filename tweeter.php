@@ -4,6 +4,7 @@ date_default_timezone_set('America/Chicago');
 
 require __DIR__.'/vendor/autoload.php';
 
+use Memtech\Console\Command\SocialExportCommand;
 use Memtech\Console\Command\TweeterCommand;
 use Symfony\Component\Console\Application;
 
@@ -28,4 +29,5 @@ catch (\Dotenv\Exception\ValidationException $e)
 
 $application = new Application();
 $application->add(new TweeterCommand());
+$application->add(new SocialExportCommand());
 $application->run();
