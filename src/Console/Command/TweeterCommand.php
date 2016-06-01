@@ -23,6 +23,11 @@ class TweeterCommand extends Command
                 InputArgument::REQUIRED,
                 'Keywords to search for?'
             )
+            ->addArgument(
+                'media',
+                InputArgument::OPTIONAL,
+                'Pass a CSV of images to attach to the tweet'
+            )
             ->addOption(
                 'dev',
                 true,
@@ -54,7 +59,15 @@ class TweeterCommand extends Command
 
         if (!$input->getOption('dev')) {
             // Tweet about it!
-            $this->tweetEvent($tweet);
+            $media_ids = '';
+            // check for media
+            if (!is_null($input->getArgument('media'))) {
+                $media_ids = $this->uploadMedia(
+                    explode(',', $input->getArgument('media'))
+                );
+            }
+
+            $this->tweetEvent($tweet, $media_ids);
         }
     }
 
@@ -62,10 +75,18 @@ class TweeterCommand extends Command
     * Send out the message via twitter
     * @param $tweetMsg
     */
-    protected function tweetEvent($tweetMsg)
+    protected function tweetEvent($tweetMsg, $media_ids)
     {
         $cb = $this->twitterConnect();
-        $params = ['status' => $tweetMsg];
+        $params = [
+            'status' => $tweetMsg
+        ];
+
+        if (!empty($media_ids))
+        {
+            $params['media_ids'] = $media_ids;
+        }
+
         $reply = $cb->statuses_update($params);
 
         return $reply; // just in case we care to check
@@ -196,5 +217,23 @@ class TweeterCommand extends Command
         $shortUrl = $link->getShortUrl();
 
         return $shortUrl;
+    }
+
+    protected function uploadMedia($media_files)
+    {
+        // will hold the uploaded IDs
+        $media_ids = [];
+        $cb = $this->twitterConnect();
+
+        foreach ($media_files as $file) {
+            // upload all media files
+            $reply = $cb->media_upload([
+                'media' => $file
+            ]);
+            // and collect their IDs
+            $media_ids[] = $reply->media_id_string;
+        }
+
+        return implode(',', $media_ids);
     }
 }
