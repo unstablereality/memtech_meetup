@@ -3,31 +3,38 @@
 namespace Memtech\Console\Command;
 
 use Carbon\Carbon;
-use Codebird\Codebird;
-use Mremi\UrlShortener\Model\Link;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
-use Mremi\UrlShortener\Provider\Google\GoogleProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\Csv\Writer;
-use SplTempFileObject;
 
 class SocialExportCommand extends Command
 {
     protected function configure()
     {
         $this->setName('memtech:export')
-            ->setDescription('Export Meetup Dates and Info');
+            ->setDescription('Export Meetup Dates and Info')
+            ->addArgument(
+                'limit',
+                InputArgument::OPTIONAL,
+                'Max events to return, default 50'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $m = $this->meetupConnect();
+        $results = $input->getArgument('limit');
+        if (is_null($results))
+        {
+            $results = 50;
+        }
+
         $all_events = $m->getEvents([
-            'group_urlname' => 'memphis-technology-user-groups'
+            'group_urlname' => 'memphis-technology-user-groups',
+            'page' => $results, // Results to return
         ]);
 
         if (is_file('export.csv'))
@@ -51,7 +58,12 @@ class SocialExportCommand extends Command
 
             if (strpos($name, 'breakfast') !== false)
             {
-                $hours_before = 13;
+                $hours_before = 19;
+            }
+
+            if (strpos($name, 'coworking') !== false)
+            {
+                $hours_before = 18;
             }
 
             $fields = [
