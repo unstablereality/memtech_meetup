@@ -2,6 +2,7 @@
 
 namespace Memtech\Console\Command;
 
+use Carbon\Carbon;
 use Codebird\Codebird;
 use Mremi\UrlShortener\Model\Link;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
@@ -19,11 +20,6 @@ class TweeterCommand extends Command
         $this->setName('memtech:tweet')
             ->setDescription('Tweet about Lunch events')
             ->addArgument(
-                'keywords',
-                InputArgument::REQUIRED,
-                'Keywords to search for?'
-            )
-            ->addArgument(
                 'media',
                 InputArgument::OPTIONAL,
                 'Pass a CSV of images to attach to the tweet'
@@ -38,12 +34,16 @@ class TweeterCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        $today = new Carbon('now', 'America/Chicago');
+        $keyword = $this->getKeyword($today);
+
         $m = $this->meetupConnect();
         $all_events = $m->getEvents([
-            'group_urlname' => 'memphis-technology-user-groups'
+            'group_urlname' => 'memphis-technology-user-groups',
         ]);
 
-        $events = $this->getNextEvent($input->getArgument('keywords'), $all_events);
+        $events = $this->getNextEvent($keyword, $all_events);
 
         // Make sure we found $events
         if ($events === false)
@@ -235,5 +235,46 @@ class TweeterCommand extends Command
         }
 
         return implode(',', $media_ids);
+    }
+
+    protected function getKeyword($today)
+    {
+        switch($today->dayOfWeek)
+        {
+            case 1:
+                exit();
+                break;
+            case 2:
+                exit();
+                break;
+            case 3:
+                return 'east';
+                break;
+            case 4:
+                exit();
+                break;
+            case 5:
+                // is it the first friday of the month?
+                $first_friday = new Carbon('first friday of this month', 'America/Chicago');
+                if ($first_friday->isSameDay($today))
+                {
+                    return 'burger';
+                }
+                // is it the second friday of the month?
+                $first_friday = new Carbon('second friday of this month', 'America/Chicago');
+                if ($first_friday->isSameDay($today))
+                {
+                    return 'midtown';
+                }
+                break;
+            case 6:
+                exit();
+                break;
+            case 7:
+                exit();
+                break;
+        }
+
+        exit();
     }
 }
