@@ -6,13 +6,13 @@ A simple script to automatically tweet about memtech events
 
 Designed to be run from the crontab
 
-Usage: `tweeter.php memtech:tweet <search string>  --dev`
+Usage: `tweeter.php memtech:tweet  --dev`
 
 When using `--dev` the command will NOT tweet results
 
 Attach an image to the tweet:
 
-`tweeter.php memtech:tweet <search string> http://url.to/image.jpg,http://url.to/image2.jpg`
+`tweeter.php memtech:tweet http://url.to/image.jpg,http://url.to/image2.jpg`
 
 Maximum 4 images. Must separate URLs with a comma, no leading spaces.
 
