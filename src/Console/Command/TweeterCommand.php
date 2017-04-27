@@ -4,6 +4,7 @@ namespace Memtech\Console\Command;
 
 use Carbon\Carbon;
 use Codebird\Codebird;
+use Memtech\Traits\MeetupTrait;
 use Mremi\UrlShortener\Model\Link;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
 use Mremi\UrlShortener\Provider\Google\GoogleProvider;
@@ -15,6 +16,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TweeterCommand extends Command
 {
+    use MeetupTrait;
+
     protected function configure()
     {
         $this->setName('memtech:tweet')
@@ -90,19 +93,6 @@ class TweeterCommand extends Command
         $reply = $cb->statuses_update($params);
 
         return $reply; // just in case we care to check
-    }
-
-    /** 
-    *  Set up the Meetup API connection strings and create the connection.
-    *
-    *  @return mixed
-    */
-    protected function meetupConnect()
-    {
-        $meetup_api_key = getenv('MEETUP_KEY');
-        $connection = MeetupKeyAuthClient::factory(array('key' => $meetup_api_key));
-
-        return $connection;
     }
 
     /**

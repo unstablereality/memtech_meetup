@@ -3,7 +3,7 @@
 namespace Memtech\Console\Command;
 
 use Carbon\Carbon;
-use DMS\Service\Meetup\MeetupKeyAuthClient;
+use Memtech\Traits\MeetupTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,6 +12,18 @@ use League\Csv\Writer;
 
 class SocialExportCommand extends Command
 {
+    use MeetupTrait;
+
+    private $twitter_map = [
+        'php' => 'MemphisPHP',
+        'midsouth makers' => 'MidsouthMakers',
+        'ruby' => 'MemphisRuby',
+        'python' => 'MemphisPython',
+        'game dev' => 'MemphisGameDev',
+        'web workers' => 'MemphisWW',
+        'agile' => 'MemphisAgile',
+    ];
+
     protected function configure()
     {
         $this->setName('memtech:export')
@@ -27,8 +39,7 @@ class SocialExportCommand extends Command
     {
         $m = $this->meetupConnect();
         $results = $input->getArgument('limit');
-        if (is_null($results))
-        {
+        if (is_null($results)) {
             $results = 50;
         }
 
@@ -37,32 +48,28 @@ class SocialExportCommand extends Command
             'page' => $results, // Results to return
         ]);
 
-        if (is_file('export.csv'))
-        {
+        if (is_file('export.csv')) {
             unlink('export.csv');
         }
 
         $fp = fopen('export.csv', 'w');
 
-        foreach($all_events as $event)
-        {
+        foreach ($all_events as $event) {
             $event_date = Carbon::createFromTimestamp($event['time'] / 1000);
             $hours_before = 6;
             $name = strtolower($event['name']);
 
             if ((strpos($name, 'lunch') !== false) ||
-                (strpos($name, 'burger') !== false))
-            {
+                (strpos($name, 'burger') !== false)
+            ) {
                 $hours_before = 2;
             }
 
-            if (strpos($name, 'breakfast') !== false)
-            {
+            if (strpos($name, 'breakfast') !== false) {
                 $hours_before = 19;
             }
 
-            if (strpos($name, 'coworking') !== false)
-            {
+            if (strpos($name, 'coworking') !== false) {
                 $hours_before = 18;
             }
 
@@ -86,35 +93,13 @@ class SocialExportCommand extends Command
         if (strpos($name, '#memtech') === false) {
             $name .= ' #memtech';
         }
-        // If the name contains 'Midsouth Makers' use their twitter
-        if (strpos($name, 'Midsouth Makers') !== false) {
-//            $name = str_replace($name, 'Midsouth Makers', '@MidsouthMakers');
-            $name .= ' @MidsouthMakers';
-        }
 
-        // If the name contains 'Midsouth Makers' use their twitter
-        if (strpos($name, 'MemphisPHP') !== false) {
-//            $name = str_replace($name, 'MemphisPHP', '@MemphisPHP');
-            $name .= ' @MemphisPHP';
-        }
-        
-        if (strpos(strtolower($name), 'ruby') !== false) {
-            $name .= ' @MemphisRuby';
+        foreach ($this->twitter_map as $needle => $twitter_handle) {
+            if (strpos(strtolower($name), $needle) !== false) {
+                $name .= ' @' . $twitter_handle;
+            }
         }
 
         return $name;
-    }
-
-    /**
-     *  Set up the Meetup API connection strings and create the connection.
-     *
-     *  @return mixed
-     */
-    protected function meetupConnect()
-    {
-        $meetup_api_key = getenv('MEETUP_KEY');
-        $connection = MeetupKeyAuthClient::factory(array('key' => $meetup_api_key));
-
-        return $connection;
     }
 }
