@@ -32,6 +32,7 @@ class ExportEventsCommand extends Command
         $today = new Carbon('now', 'America/Chicago');
         $first_day = new Carbon('first day of next month', 'America/Chicago');
         $last_day = new Carbon('last day of next month', 'America/Chicago');
+
         if (is_null($results))
         {
             $results = 50;
@@ -48,6 +49,9 @@ class ExportEventsCommand extends Command
         }
 
         $fp = fopen($export_file, 'w');
+
+        // Set up some column headers
+        fputcsv($fp, ["Date","Event Title","Organizer"]);
 
         foreach($all_events as $event)
         {
