@@ -66,9 +66,11 @@ class SocialExportCommand extends Command
                 $hours_before = 18;
             }
 
+            $event_name = $this->processEventName($event['name']);
+
             $fields = [
                 $event_date->subHours($hours_before)->format('m/d/Y H:i:s'),
-                $event['name'],
+                $event_name,
                 $event['event_url'],
             ];
 
@@ -76,6 +78,27 @@ class SocialExportCommand extends Command
         }
 
         fclose($fp);
+    }
+
+    protected function processEventName($name)
+    {
+        // If the name doesn't have #memtech, make it so
+        if (strpos($name, '#memtech') === false) {
+            $name .= ' #memtech';
+        }
+        // If the name contains 'Midsouth Makers' use their twitter
+        if (strpos($name, 'Midsouth Makers') !== false) {
+//            $name = str_replace($name, 'Midsouth Makers', '@MidsouthMakers');
+            $name .= ' @MidsouthMakers';
+        }
+
+        // If the name contains 'Midsouth Makers' use their twitter
+        if (strpos($name, 'MemphisPHP') !== false) {
+//            $name = str_replace($name, 'MemphisPHP', '@MemphisPHP');
+            $name .= ' @MemphisPHP';
+        }
+
+        return $name;
     }
 
     /**
