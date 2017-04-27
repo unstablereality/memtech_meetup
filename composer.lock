@@ -110,16 +110,16 @@
         },
         {
             "name": "dms/meetup-api-client",
-            "version": "dev-master",
+            "version": "v2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rdohms/meetup-api-client.git",
-                "reference": "a7b7c3b410f1fca888e2125023de6c67701b7e2d"
+                "reference": "fe011c3da7b3fecfc8fe40b9ecd22d05c9bf74d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rdohms/meetup-api-client/zipball/a7b7c3b410f1fca888e2125023de6c67701b7e2d",
-                "reference": "a7b7c3b410f1fca888e2125023de6c67701b7e2d",
+                "url": "https://api.github.com/repos/rdohms/meetup-api-client/zipball/fe011c3da7b3fecfc8fe40b9ecd22d05c9bf74d8",
+                "reference": "fe011c3da7b3fecfc8fe40b9ecd22d05c9bf74d8",
                 "shasum": ""
             },
             "require": {
@@ -165,7 +165,7 @@
                 "dms",
                 "meetup.com"
             ],
-            "time": "2016-04-22 08:36:16"
+            "time": "2016-12-11 10:25:53"
         },
         {
             "name": "guzzle/guzzle",
@@ -260,7 +260,6 @@
                 "rest",
                 "web service"
             ],
-            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-04-29 17:06:53"
         },
         {
