@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\Csv\Writer;
@@ -16,27 +17,33 @@ class ExportEventsCommand extends Command
     {
         $this->setName('memtech:exportevents')
             ->setDescription('Export Meetup Title, Date, and Organizers for a single month')
-            ->addArgument(
+            ->addOption(
                 'limit',
-                InputArgument::OPTIONAL,
-                'Max events to return, default 50'
+                'l',
+                InputOption::VALUE_REQUIRED,
+                'Max events to return, default 50',
+                50
+            )
+            ->addOption(
+                'month',
+                'm',
+                InputOption::VALUE_REQUIRED,
+                'Month for which to retrieve events, default is next month',
+                'next month'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $m = $this->meetupConnect();
-        $results = $input->getArgument('limit');
+        $results = $input->getOption('limit');
+        $month = $input->getOption('month');
         $group_url = 'memphis-technology-user-groups';
         $export_file = 'events_export.csv';
         $today = new Carbon('now', 'America/Chicago');
-        $first_day = new Carbon('first day of next month', 'America/Chicago');
-        $last_day = new Carbon('last day of next month', 'America/Chicago');
 
-        if (is_null($results))
-        {
-            $results = 50;
-        }
+        $first_day = new Carbon("first day of $month", 'America/Chicago');
+        $last_day = new Carbon("last day of $month", 'America/Chicago');
 
         $all_events = $m->getEvents([
             'group_urlname' => $group_url,
