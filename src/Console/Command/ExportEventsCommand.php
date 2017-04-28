@@ -4,6 +4,7 @@ namespace Memtech\Console\Command;
 
 use Carbon\Carbon;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
+use Memtech\Traits\MeetupTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,6 +14,8 @@ use League\Csv\Writer;
 
 class ExportEventsCommand extends Command
 {
+    use MeetupTrait;
+
     protected function configure()
     {
         $this->setName('memtech:exportevents')
