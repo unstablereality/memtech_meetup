@@ -163,7 +163,7 @@ class TweeterCommand extends Command
         $url = $this->shortenUrl($event['event_url']);
         $tweets = [
             'Come join us at 11:30 for #memtech lunch at ' . $event['venue_name'] . '. ' . $url . PHP_EOL,
-            'I\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us for lunch! #memtech ' . $url . PHP_EOL,
+            'We\'ll be enjoying ' . $event['venue_name'] . ' at 11:30 today. Join us for lunch! #memtech ' . $url . PHP_EOL,
             $event['venue_name'] . ' is the place to be at 11:30 today for #memtech lunch! ' . $url . PHP_EOL,
             'Need plans for lunch? Head out to ' . $event['venue_name'] . ' for #memtech lunch at 11:30. ' . $url . PHP_EOL,
             'Good food, good friends, good conversation. #memtech lunch. 11:30 today at ' . $event['venue_name'] . '. ' . $url . PHP_EOL,
