@@ -20,7 +20,8 @@ try
         'TWITTER_TOKEN',
         'TWITTER_TOKEN_SECRET',
         'MEETUP_KEY',
-        'GOOGLE_SHORTEN_KEY'
+        'BITLY_USER',
+        'BITLY_PASS'
     ]);
 }
 catch (\Dotenv\Exception\ValidationException $e)

@@ -7,7 +7,8 @@ use Codebird\Codebird;
 use Memtech\Traits\MeetupTrait;
 use Mremi\UrlShortener\Model\Link;
 use DMS\Service\Meetup\MeetupKeyAuthClient;
-use Mremi\UrlShortener\Provider\Google\GoogleProvider;
+use Mremi\UrlShortener\Provider\Bitly\BitlyProvider;
+use Mremi\UrlShortener\Provider\Bitly\OAuthClient;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -188,7 +189,7 @@ class TweeterCommand extends Command
     }
 
     /**
-     * Shorten a URL using google's URL shortener
+     * Shorten a URL using Bitly's URL shortener
      * @param $url
      * @return string
      */
@@ -202,8 +203,8 @@ class TweeterCommand extends Command
             'timeout' => 1,
         ];
 
-        $googleProvider = new GoogleProvider(getenv('GOOGLE_SHORTEN_KEY'), $options);
-        $googleProvider->shorten($link);
+        $bitlyProvider = new BitlyProvider(new OAuthClient(getenv('BITLY_USER'), getenv('BITLY_PASS'), $options));
+        $bitlyProvider->shorten($link);
         $shortUrl = $link->getShortUrl();
 
         return $shortUrl;
